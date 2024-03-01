@@ -1,3 +1,4 @@
+ let seeMore = false;
 const loadHandler = async () => {
   const res = await fetch("https://openapi.programming-hero.com/api/ai/tools");
   const data = await res.json();
@@ -9,6 +10,18 @@ const loadHandler = async () => {
 // display content
 const displayContent = (contents) => {
   const contentContainer = document.getElementById("content-container");
+
+  const seeMoreBtn = document.getElementById("see-more");
+  //   console.log(contents.length);
+  if (seeMore) {
+    seeMoreBtn.classList.add("hidden");
+  } else {
+    seeMoreBtn.classList.remove("hidden");
+  }
+  if (contents.length > 6 && !seeMore) {
+    contents = contents.slice(0, 6);
+  }
+ contentContainer.innerHTML = "";
   contents.forEach((content) => {
     console.log(content);
     const contentCard = document.createElement("div");
@@ -44,4 +57,9 @@ const displayContent = (contents) => {
   });
 };
 
+// handle see more button
+const handleSeeMore = () => {
+  seeMore = true;
+  loadHandler();
+};
 loadHandler();
